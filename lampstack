@@ -1,5 +1,5 @@
 #!/bin/sh
-apt-get update
+sudo apt-get update
 sudo apt install apache2 -y
 sudo ufw allow "Apache Full"
 sudo apt install mysql-server -y
@@ -7,3 +7,36 @@ sudo apt install php libapache2-mod-php php-mysql -y
 
 sudo mysql_secure_installation
 sudo nano /etc/apache2/mods-enabled/dir.conf
+
+sudo mkdir /var/www/your_domain
+sudo chown -R $USER:$USER /var/www/your_domain
+sudo chmod -R 755 /var/www/your_domain
+
+echo "<html>
+    <head>
+        <title>Welcome to Your_domain!</title>
+    </head>
+    <body>
+        <h1>Success!  The your_domain server block is working!</h1>
+    </body>
+</html>" >> /var/www/your_domain/index.html
+
+
+echo "<VirtualHost *:80>
+    ServerAdmin webmaster@localhost
+    ServerName your_domain
+    ServerAlias www.your_domain
+    DocumentRoot /var/www/your_domain
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>" >> /etc/apache2/sites-available/your_domain.conf
+
+sudo a2ensite your_domain.conf
+sudo a2dissite 000-default.conf
+sudo apache2ctl configtest
+sudo systemctl restart apache2
+
+
+echo "<?php
+phpinfo();
+?>" >> /var/www/your_domain/info.php
