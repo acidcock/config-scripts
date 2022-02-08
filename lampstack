@@ -8,35 +8,30 @@ sudo apt install php libapache2-mod-php php-mysql -y
 sudo mysql_secure_installation
 sudo nano /etc/apache2/mods-enabled/dir.conf
 
-sudo mkdir /var/www/your_domain
-sudo chown -R $USER:$USER /var/www/your_domain
-sudo chmod -R 755 /var/www/your_domain
+# must test this half still
+sudo mkdir /var/www/domainTemplate
+sudo chown -R $USER:$USER /var/www/domainTemplate
+sudo chmod -R 755 /var/www/domainTemplate
 
-echo "<html>
-    <head>
-        <title>Welcome to Your_domain!</title>
-    </head>
-    <body>
-        <h1>Success!  The your_domain server block is working!</h1>
-    </body>
-</html>" >> /var/www/your_domain/index.html
+printf "<html> \n<head> \n<title>Welcome to Your_domain!</title> \n</head> \n<body> \n<h1>Success!  The domainTemplate server block is working!</h1> \n</body> \n</html>" >> /var/www/domainTemplate/index.html
 
 
-echo "<VirtualHost *:80>
+printf "<VirtualHost *:80>
     ServerAdmin webmaster@localhost
-    ServerName your_domain
-    ServerAlias www.your_domain
-    DocumentRoot /var/www/your_domain
+    ServerName domainTemplate
+    ServerAlias www.domainTemplate
+    DocumentRoot /var/www/domainTemplate
     ErrorLog ${APACHE_LOG_DIR}/error.log
     CustomLog ${APACHE_LOG_DIR}/access.log combined
-</VirtualHost>" >> /etc/apache2/sites-available/your_domain.conf
-
-sudo a2ensite your_domain.conf
-sudo a2dissite 000-default.conf
-sudo apache2ctl configtest
-sudo systemctl restart apache2
+</VirtualHost>" >> /etc/apache2/sites-available/domainTemplate.conf
 
 
-echo "<?php
-phpinfo();
-?>" >> /var/www/your_domain/info.php
+printf "<?php \nphpinfo(); \n?>" >> /var/www/domainTemplate/info.php
+
+
+# run these commands manually after renaming files and folders to commit everything to apache
+
+#sudo a2ensite domainTemplate.conf
+#sudo a2dissite 000-default.conf
+#sudo apache2ctl configtest
+#sudo systemctl restart apache2
