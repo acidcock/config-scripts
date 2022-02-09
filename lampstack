@@ -6,14 +6,13 @@ sudo ufw allow "Apache Full"
 sudo mysql_secure_installation
 sudo nano /etc/apache2/mods-enabled/dir.conf
 
-# must test this half still
 sudo mkdir /var/www/domainTemplate
 sudo chown -R $USER:$USER /var/www/domainTemplate
 sudo chmod -R 755 /var/www/domainTemplate
 
 printf "<html> \n<head> \n<title>Welcome to Your_domain!</title> \n</head> \n<body> \n<h1>Success!  The domainTemplate server block is working!</h1> \n</body> \n</html>" >> /var/www/domainTemplate/index.html
 
-
+#doesn't print the environment variables. enter them manually for now
 printf "<VirtualHost *:80> \nServerAdmin webmaster@localhost \nServerName domainTemplate \nServerAlias www.domainTemplate \nDocumentRoot /var/www/domainTemplate \nErrorLog ${APACHE_LOG_DIR}/error.log \nCustomLog ${APACHE_LOG_DIR}/access.log combined \n</VirtualHost>" >> /etc/apache2/sites-available/domainTemplate.conf
 
 
@@ -22,7 +21,9 @@ printf "<?php \nphpinfo(); \n?>" >> /var/www/domainTemplate/info.php
 
 # run these commands manually after renaming files and folders to commit everything to apache
 
-#sudo a2ensite domainTemplate.conf
-#sudo a2dissite 000-default.conf
+#sudo a2ensite replaceMe!.conf
 #sudo apache2ctl configtest
 #sudo systemctl restart apache2
+
+#based on this tutorial
+# https://www.digitalocean.com/community/tutorials/how-to-install-linux-apache-mysql-php-lamp-stack-on-ubuntu-20-04
