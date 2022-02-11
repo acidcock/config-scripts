@@ -1,0 +1,20 @@
+<VirtualHost *:80>
+    ServerName %DOMAIN%
+    ServerAlias %DOMAIN%
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/%DOMAIN%
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+        <Directory /var/www/nerdarcadia>
+            AllowOverride All
+        </Directory>
+</VirtualHost>
+<VirtualHost *:443>
+   ServerName %DOMAIN%
+   DocumentRoot /var/www/%DOMAIN%
+
+   SSLEngine on
+   SSLCertificateFile /etc/letsencrypt/live/%DOMAIN%/fullchain.pem
+   SSLCertificateKeyFile /etc/letsencrypt/live/%DOMAIN%/privkey.pem
+Include /etc/letsencrypt/options-ssl-apache.conf
+</VirtualHost>
